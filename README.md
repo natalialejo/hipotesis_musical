@@ -74,7 +74,7 @@ Los datos se dividen en 3 tablas, la primera sobre el rendimiento de cada canci�
     * Tablas Importadas: *track_in_competition, track_in_spotify, track_technical_info*  
 
 - Subida de tablas con nombres originales:
-    * Se utilizó "Character Map V2" para aceptar el nombre *artist(s)_name*, cambiándolo a *artist_s_name
+    * Se utilizó "Character Map V2" para aceptar el nombre *artist(s)_name*, cambiándolo a *artist_s_name*.
    
 - Identificación de nulos y duplicados: 
     * Identificador Único: *track_id*
@@ -82,19 +82,19 @@ Los datos se dividen en 3 tablas, la primera sobre el rendimiento de cada canci�
         En track_in_competition: 50 nulos en *shazam_charts*
         En track_in_spotify: No hay nulos
         En track_technicalinfo: 95 nulos en *key*
-    * Duplicados: Comandos SQL utilizados: `COUNT`, `GROUP BY`, `HAVING`: 4 duplicados en track_in_spotify
+    * Duplicados: Comandos SQL utilizados: `COUNT`, `GROUP BY`, `HAVING`: 4 duplicados en *track_in_spotify*
 
 - Manejo de nulos:
-    * Se decidió mantener los nulos en track_in_competition.
+    * Se decidió mantener los nulos en *track_in_competition*.
 
 - Eliminación de variables no utiles:  
-    * Se eliminaron dos variables de track_technicalinfo y una de track_in_spotify utilizando `SELECT EXCEPT`.
+    * Se eliminaron dos variables de *track_technical_info* y una de *track_in_spotify* utilizando `SELECT EXCEPT`.
 
 - Manejo de datos discrepantes:  
     * Variables Categóricas: Uso de `LIKE` y `REGEXP` para manejar nombres con símbolos extraños.
     * Variables Numéricas: Uso de `MAX`, `MIN`, `AVG` para identificar valores discrepantes.
 
-- Uso de `CAST` para modificar tipos de datos: `CAST` se utilizó en lugar de `UPDATE`- para evitar modificar la tabla original y mantener una copia original del conjunto de datos.
+- Uso de `CAST` para modificar tipos de datos: `CAST` se utilizó en lugar de `UPDATE`para evitar modificar la tabla original y mantener una copia original del conjunto de datos.
 
 - Creación de Variables Adicionales:  
     * Variables de *fecha_released*, *total_playlist* y *streams_int64* utilizando `CONCAT`, `CAST`, `LPAD` y `DATE`.
