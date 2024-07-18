@@ -167,7 +167,7 @@ Una vez se tuvo el ambiente de trabajo listo, se procedió a la exploración y m
 - De forma exploratoria, se crearon categorías  como *track_count* y *track _released_year* junto a gráficos correspondientes para una mejor comprensión.
 - Se calcularon medidas de tendencia central: `AVG`, `MAX`, `MIN`, `MEDIAN`, `STANDAR DEVIATION`: 
 
-![Texto alternativo](URL_de_la_imagen)
+![Texto alternativo](img/graph_mtc.png?raw=true)
 
 Los resultados encontrados indican que hay una gran variabilidad en el número de streams y en el número de playlists en las que están las canciones. Aunque la mayoría de las canciones tienen un número relativamente bajo de streams y playlists, algunas pocas canciones alcanzan cifras extremadamente altas, lo que sesga los promedios hacia arriba. Los años de lanzamiento están mayormente concentrados en fechas recientes, y los BPM de las canciones muestran una variabilidad moderada.
 
