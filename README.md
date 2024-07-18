@@ -29,7 +29,7 @@ Las respuestas obtenidas nos ayudarán a realizar la validación de las siguient
   
 ### 2. Lenguajes:
 * Lenguaje SQL en BigQuery.
-* Lenguaje Python en PowerBi.
+* Lenguaje Python en Power BI.
 
 ### 3. Descripción de las variables del dataset:
 Los datos se dividen en 3 tablas, la primera sobre el rendimiento de cada canción en Spotify, la segunda con el rendimiento en otras plataformas como Deezer o Apple Music, y la tercera con las características de estas canciones.
@@ -154,4 +154,11 @@ ORDER BY
   S.released_month,
   S.released_day;
 ```
+## Análisis exploratorio:
+
+Debido a la limitación de Power BI en Mac, se siguieron estos pasos técnicos:
+
+- Instalación de Parallel Desktop: Para crear un ambiente de Windows en Mac.
+- Instalación de Power BI: Dentro del ambiente de Windows.
+- Conexión a BigQuery: Se conectaron las vistas *consolidado_view, in_spotify_view, competition_view* y *technical_view*.
 
