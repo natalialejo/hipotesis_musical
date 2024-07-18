@@ -162,3 +162,37 @@ Debido a la limitación de Power BI en Mac, se siguieron estos pasos técnicos:
 - Instalación de Power BI: Dentro del ambiente de Windows.
 - Conexión a BigQuery: Se conectaron las vistas *consolidado_view, in_spotify_view, competition_view* y *technical_view*.
 
+Una vez se tuvo el ambiente de trabajo listo, se procedió a la exploración y manipulación de datos:
+
+- De forma exploratoria, se crearon categorías  como *track_count* y *track _released_year* junto a gráficos correspondientes para una mejor comprensión.
+- Se calcularon medidas de tendencia central: `AVG`, `MAX`, `MIN`, `MEDIAN`, `STANDAR DEVIATION`: 
+
+![Texto alternativo](URL_de_la_imagen)
+
+Los resultados encontrados indican que hay una gran variabilidad en el número de streams y en el número de playlists en las que están las canciones. Aunque la mayoría de las canciones tienen un número relativamente bajo de streams y playlists, algunas pocas canciones alcanzan cifras extremadamente altas, lo que sesga los promedios hacia arriba. Los años de lanzamiento están mayormente concentrados en fechas recientes, y los BPM de las canciones muestran una variabilidad moderada.
+
+- Además, se visualizó la distribución de los datos a través de histogramas, para ellos es necesario instalar el lenguaje python en Power BI y correr un script que devuelva dichos gráficos:
+
+```python
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# The following code to create a dataframe and remove duplicated rows is always executed and acts as a preamble for your script:
+dataset = dataset.drop_duplicates()
+
+# Obtén los datos de PBI - solo necesita cambiar esta información de todo el código
+data = dataset['streams_int64']
+
+# Crea el histograma
+plt.hist(data, bins=10, color='purple', alpha=0.7)
+plt.xlabel('Valor')
+plt.ylabel('Frecuencia')
+plt.title('Histograma')
+
+# Muestra el histograma
+plt.show()
+```
+
+![Texto alternativo](URL_de_la_imagen)
+
+- Se descubrió que en el *Histograma de Total de Streams*, la distribución de streams es asimétrica y sesgada a la derecha, con la mayoría de canciones acumulando una cantidad relativamente baja de streams y unas pocas canciones alcanzando un número extremadamente alto. La mayor frecuencia de canciones se encuentra en el rango más bajo de streams, cercano a 0, y disminuye rápidamente a medida que los streams aumentan. Los valores de streams varían desde casi 0 hasta 35 mil millones, siendo la mayoría de las canciones de menos de 1 mil millones de streams. De igual forma, la distrubución en el *Histograma de Total de Playlists* es similar a la de los streams, con un sesgo a la derecha donde la mayoría de las canciones están en un número bajo de playlists. La mayor frecuencia de canciones se encuentra en el rango más bajo, con menos de 10,000 playlists. A medida que aumenta el número de playlists, la frecuencia de canciones disminuye significativamente, con muy pocas canciones alcanzando más de 60,000 playlists.
