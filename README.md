@@ -156,20 +156,18 @@ ORDER BY
 ```
 ## Análisis exploratorio:
 
-Debido a la limitación de Power BI en Mac, se siguieron estos pasos técnicos:
+- Debido a la limitación de Power BI en Mac, se siguieron estos pasos técnicos:
+    * Instalación de Parallel Desktop: Para crear un ambiente de Windows en Mac.
+    * Instalación de Power BI: Dentro del ambiente de Windows.
+    * Conexión a BigQuery: Se conectaron las vistas *consolidado_view, in_spotify_view, competition_view* y *technical_view*.
 
-- Instalación de Parallel Desktop: Para crear un ambiente de Windows en Mac.
-- Instalación de Power BI: Dentro del ambiente de Windows.
-- Conexión a BigQuery: Se conectaron las vistas *consolidado_view, in_spotify_view, competition_view* y *technical_view*.
-
-Una vez se tuvo el ambiente de trabajo listo, se procedió a la exploración y manipulación de datos:
-
-- De forma exploratoria, se crearon categorías  como *track_count* y *track _released_year* junto a gráficos correspondientes para una mejor comprensión.
-- Se calcularon medidas de tendencia central: `AVG`, `MAX`, `MIN`, `MEDIAN`, `STANDAR DEVIATION`: 
+- Una vez se tuvo el ambiente de trabajo listo, se procedió a la exploración y manipulación de datos:
+    * De forma exploratoria, se crearon categorías  como *track_count* y *track _released_year* junto a gráficos correspondientes para una mejor comprensión.
+    * Se calcularon medidas de tendencia central: `AVG`, `MAX`, `MIN`, `MEDIAN`, `STANDAR DEVIATION`: 
 
 ![Texto alternativo](img/graph_mtc.png?raw=true)
 
-Los resultados encontrados indican que hay una gran variabilidad en el número de streams y en el número de playlists en las que están las canciones. Aunque la mayoría de las canciones tienen un número relativamente bajo de streams y playlists, algunas pocas canciones alcanzan cifras extremadamente altas, lo que sesga los promedios hacia arriba. Los años de lanzamiento están mayormente concentrados en fechas recientes, y los BPM de las canciones muestran una variabilidad moderada.
+- Los resultados encontrados indican que hay una gran variabilidad en el número de streams y en el número de playlists en las que están las canciones. Aunque la mayoría de las canciones tienen un número relativamente bajo de streams y playlists, algunas pocas canciones alcanzan cifras extremadamente altas, lo que sesga los promedios hacia arriba. Los años de lanzamiento están mayormente concentrados en fechas recientes, y los BPM de las canciones muestran una variabilidad moderada.
 
 - Además, se visualizó la distribución de los datos a través de histogramas, para ellos es necesario instalar el lenguaje python en Power BI y correr un script que devuelva dichos gráficos:
 
@@ -199,8 +197,84 @@ plt.show()
 
 - Para entender el comportamiento de los datos a lo largo del tiempo, se realizaron visualizaciones específicas:
 
-![Texto alternativo](img/graph_line.png?raw=true)  
+![Texto alternativo](img/graph_line.png?raw=true)
 
-  ** Gráfico de Líneas de *track_id* by *released_year*: para visualizar la cantidad de canciones lanzadas por año. Esto ayuda a identificar tendencias en la producción de música a lo largo del tiempo.
+    *Gráfico de Líneas de *track_id* by *released_year* para visualizar la cantidad de canciones lanzadas por año. Esto ayuda a identificar tendencias en la producción de música a lo largo del tiempo.
 
-  ** Gráfico de Líneas de *streams_int64* by *released_year*: para analizar el total de streams por año, lo cual permite observar cómo ha evolucionado la popularidad de las canciones y el consumo de música en diferentes períodos.
+    *Gráfico de Líneas de *streams_int64* by *released_year* para analizar el total de streams por año, lo cual permite observar cómo ha evolucionado la popularidad de las canciones y el consumo de música en diferentes períodos.
+
+- Creación de Categorías por Cuartiles en BigQuery : Una vez realizada la exploración de datos, se procedió a crear categorías por cuartiles para las variables de características técnicas de las canciones utilizando consultas en BigQuery.
+
+    * Generación de Cuartiles: se utilizó la función `NTILE` para dividir las variables en cuartiles, de esto se genera una tabla temporal.
+    * Creación de Categorías: se creó una vista llamada categoria. Esta vista combina datos de la tabla *consolidado* con los cuartiles de la tabla *quartiles*, y además categoriza varias métricas (bpm, streams, danceability, valence, energy, acousticness, instrumentalness, liveness, speechiness) en categorías de "Bajo" (1,2 y 3 quartiles) y "Alto" (quartile 4).
+
+#### Ejemplo de consulta para creación de vista de *categorías*
+
+``` sql
+CREATE OR REPLACE VIEW `proyecto2-hipotesis-426821.Dataset_hipotesis.categoria` AS
+SELECT
+  a.track_id,
+  a.streams_int64,
+  a.bpm,
+  a.`acousticness_%`,
+  a.`danceability_%`,
+  a.`energy_%`,
+  a.`instrumentalness_%`,
+  a.`liveness_%`,
+  a.`speechiness_%`,
+  a.`valence_%`,
+  q.q_bpm,
+  q.q_streams,
+  q.q_danceability,
+  q.q_valence,
+  q.q_energy,
+  q.q_acousticness,
+  q.q_instrumentalness,
+  q.q_liveness,
+  q.q_speechiness,
+  IF(q.q_bpm IN (1, 2, 3), "Bajo", "Alto") AS bpm_category,
+  IF(q.q_streams IN (1, 2, 3), "Bajo", "Alto") AS streams_category,
+  IF(q.q_danceability IN (1, 2, 3), "Bajo", "Alto") AS danceability_category,
+  IF(q.q_valence IN (1, 2, 3), "Bajo", "Alto") AS valence_category,
+  IF(q.q_energy IN (1, 2, 3), "Bajo", "Alto") AS energy_category,
+  IF(q.q_acousticness IN (1, 2, 3), "Bajo", "Alto") AS acousticness_category,
+  IF(q.q_instrumentalness IN (1, 2, 3), "Bajo", "Alto") AS instrumentalness_category,
+  IF(q.q_liveness IN (1, 2, 3), "Bajo", "Alto") AS liveness_category,
+  IF(q.q_speechiness IN (1, 2, 3), "Bajo", "Alto") AS speechiness_category
+FROM
+  `proyecto2-hipotesis-426821.Dataset_hipotesis.consolidado` a
+LEFT JOIN `proyecto2-hipotesis-426821.Dataset_hipotesis.quartiles` q
+ON a.track_id = q.track_id
+WHERE a.streams_int64 IS NOT NULL;
+``` 
+- **Observacion**:Al categorizar, se observaron asignaciones  que pueden tomarse como incorrectas debido a la alta concentración de valores cero en algunas variables. La función NTILE(4) distribuye los datos en cuartiles según su orden, pero en distribuciones sesgadas, con muchos ceros, no puede diferenciar entre los cuartiles. Esto sugiere que puede haber formas más adecuadas de manejar la categorización para reflejar mejor las características técnicas y su relación con el éxito.
+
+## Análisis ténico:  
+
+- Llegado a este punto, se analizaron las categorías (alto, bajo) creadas para las características de las canciones en relación con la variable *streams_int64*:
+    * Se crearon tablas matrix en Power BI y se segmentaron y agruparon los datos. Se encontró que las diferencias en el promedio de streams entre las distintas categorías de características **no son significativamente grandes**,lo cual  sugiere que ninguna de estas características por sí sola tiene un impacto fuerte en el número de streams de una canción. Las variaciones encontradas son relativamente pequeñas, puede ser que existan otros factores que determinen el éxito de una canción en términos de streams.
+
+- Cálculo de Correlaciones y validación de hipótesis:
+    * Se utilizó la función `CORR `en BigQuery para calcular la correlación entre las variables, para validar o refurtar las hipótesis planteadas.
+    * En Power BI, se visualizó la correlación utilizando scatter plots.
+
+
+#### Ejemplo de consulta para la validación de hipotesis
+
+``` sql
+#Las canciones más populares en el ranking de Spotify también tienen un comportamiento similar en otras plataformas como Deezer. #
+
+SELECT CORR (in_spotify_charts,in_deezer_charts) AS corr_hip2
+FROM `proyecto2-hipotesis-426821.Dataset_hipotesis.consolidado_view` 
+
+# 0.5999860553480  hipotesis validada #
+```
+#### Ejemplo de scatter plot para la visualización de hipotesis validada
+
+![Texto alternativo](img/graph_hi3.png?raw=true)
+
+#### Ejemplo de scatter plot para la visualización de hipotesis refutada  
+
+![Texto alternativo](img/graph_hi5.png?raw=true)
+
+
