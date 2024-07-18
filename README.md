@@ -1,5 +1,9 @@
 # Proyecto: hipotesis_musical
 
+## Indice:
+1. [Objetivo](##Objetivo)
+2. [Contexto](## Contexto)
+   
 ## Objetivo:
 Explorar un conjunto de datos con el fin de identificar patrones o características que puedan determinar los factores que contribuyen al éxito de una canción teniendo como herramienta un extenso dataset de Spotify con información sobre las canciones más escuchadas en 2023.
 
@@ -217,9 +221,9 @@ plt.show()
 
 ![Texto alternativo](img/graph_line.png?raw=true)
 
-    *Gráfico de Líneas de *track_id* by *released_year* para visualizar la cantidad de canciones lanzadas por año. Esto ayuda a identificar tendencias en la producción de música a lo largo del tiempo.
+* Gráfico de Líneas de *track_id* by *released_year* para visualizar la cantidad de canciones lanzadas por año. Esto ayuda a identificar tendencias en la producción de música a lo largo del tiempo.
 
-    *Gráfico de Líneas de *streams_int64* by *released_year* para analizar el total de streams por año, lo cual permite observar cómo ha evolucionado la popularidad de las canciones y el consumo de música en diferentes períodos.
+* Gráfico de Líneas de *streams_int64* by *released_year* para analizar el total de streams por año, lo cual permite observar cómo ha evolucionado la popularidad de las canciones y el consumo de música en diferentes períodos.
 
 - Creación de Categorías por Cuartiles en BigQuery : Una vez realizada la exploración de datos, se procedió a crear categorías por cuartiles para las variables de características técnicas de las canciones utilizando consultas en BigQuery.
 
@@ -357,12 +361,12 @@ WHERE
     * Ampliación del Catálogo: Lanzar múltiples canciones y construir un catálogo más amplio puede aumentar significativamente el número de streams.
 
 
-Referencias:
-https://fanstudy.byspotify.com/edition/spotify-playlists
-https://loudandclear.byspotify.com/es-LA/
-https://drop.show/es/definir-genero-musical-proyecto
-https://blog.landr.com/what-is-tempo/
+Referencias:  
+https://fanstudy.byspotify.com/edition/spotify-playlists  
+https://loudandclear.byspotify.com/es-LA/  
+https://drop.show/es/definir-genero-musical-proyecto  
+https://blog.landr.com/what-is-tempo/.
 
-Elaborado por:
-Natalia Alejandro González
-julio 2024
+Elaborado por:  
+Natalia Alejandro González  
+julio 2024  
