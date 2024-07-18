@@ -201,6 +201,6 @@ plt.show()
 
 ![Texto alternativo](img/graph_line.png?raw=true)  
 
-  * Gráfico de Líneas de *track_id* by *released_year*: para visualizar la cantidad de canciones lanzadas por año. Esto ayuda a identificar tendencias en la producción de música a lo largo del tiempo.
+  ** Gráfico de Líneas de *track_id* by *released_year*: para visualizar la cantidad de canciones lanzadas por año. Esto ayuda a identificar tendencias en la producción de música a lo largo del tiempo.
 
-  * Gráfico de Líneas de *streams_int64* by *released_year*: para analizar el total de streams por año, lo cual permite observar cómo ha evolucionado la popularidad de las canciones y el consumo de música en diferentes períodos.
+  ** Gráfico de Líneas de *streams_int64* by *released_year*: para analizar el total de streams por año, lo cual permite observar cómo ha evolucionado la popularidad de las canciones y el consumo de música en diferentes períodos.
