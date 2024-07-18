@@ -2,7 +2,15 @@
 
 ## Indice:
 1. [Objetivo](##Objetivo)
-2. [Contexto](## Contexto)
+2. [Contexto](##Contexto)
+3. [Metodología](##Metodología)
+4. [Procesamiento y preparación de datos](##Procesamiento-y-preparación-de-datos)
+5. [Análisis exploratorio](##Análisis-exploratorio)
+6. [Análisis ténico](Análisis-técnico)
+7. [Creación de Dashboard en Power BI](##Creación-de-Dashboard-en-Power-BI)
+8. [Conclusiones y Recomendaciones](##Conclusiones-y-Recomendaciones)
+9. [Recursos adicionales:](##-Enlances-de-recursos-adicionales:)
+
    
 ## Objetivo:
 Explorar un conjunto de datos con el fin de identificar patrones o características que puedan determinar los factores que contribuyen al éxito de una canción teniendo como herramienta un extenso dataset de Spotify con información sobre las canciones más escuchadas en 2023.
@@ -272,17 +280,17 @@ WHERE a.streams_int64 IS NOT NULL;
 
 - **Observacion**:Al categorizar, se observaron asignaciones  que pueden tomarse como incorrectas debido a la alta concentración de valores cero en algunas variables. La función NTILE(4) distribuye los datos en cuartiles según su orden, pero en distribuciones sesgadas, con muchos ceros, no puede diferenciar entre los cuartiles. Esto sugiere que puede haber formas más adecuadas de manejar la categorización para reflejar mejor las características técnicas y su relación con el éxito.
 
-## Análisis ténico:  
+## Análisis técnico:  
 
 - Llegado a este punto, se analizaron las categorías (alto, bajo) creadas para las características de las canciones en relación con la variable *streams_int64*:
     * Se crearon tablas matrix en Power BI y se segmentaron y agruparon los datos. Se encontró que las diferencias en el promedio de streams entre las distintas categorías de características **no son significativamente grandes**,lo cual  sugiere que ninguna de estas características por sí sola tiene un impacto fuerte en el número de streams de una canción. Las variaciones encontradas son relativamente pequeñas, puede ser que existan otros factores que determinen el éxito de una canción en términos de streams.
 
 - Cálculo de Correlaciones y validación de hipótesis:Se utilizó la función `CORR `en BigQuery para calcular la correlación entre las variables, para validar o refurtar las hipótesis planteadas:
-    * Hipótesis 1: No se encontró relación significativa entre BPM y streams (CORR(bpm, streams_int64) = -0.002).
-    * Hipótesis 2: Relación moderada a fuerte entre popularidad en Spotify y otras plataformas (CORR(in_spotify_charts, in_deezer_charts) = 0.60).
-    * Hipótesis 3: Fuerte relación positiva entre número de playlists y streams (CORR(total_playlists, streams_int64) = 0.78).
-    * Hipótesis 4: Fuerte relación positiva entre número de canciones de un artista y streams (CORR(in_spotify_playlists, streams_int64) = 0.79).
-    * Hipótesis 5: No se encontró relación significativa entre características de la canción y streams.
+    * **Hipótesis 1**: No se encontró relación significativa entre BPM y streams (CORR(bpm, streams_int64) = -0.002).
+    * **Hipótesis 2**: Relación moderada a fuerte entre popularidad en Spotify y otras plataformas (CORR(in_spotify_charts, in_deezer_charts) = 0.60).
+    * **Hipótesis 3**: Fuerte relación positiva entre número de playlists y streams (CORR(total_playlists, streams_int64) = 0.78).
+    * **Hipótesis 4**: Fuerte relación positiva entre número de canciones de un artista y streams (CORR(in_spotify_playlists, streams_int64) = 0.79).
+    * **Hipótesis 5**: No se encontró relación significativa entre características de la canción y streams.
 
 - En Power BI, se visualizó la correlación utilizando scatter plots.
 
@@ -359,14 +367,16 @@ WHERE
     * De acuerdo a artículos elaborados por Spotify (2024) un artista emergente que busque ser incluido en playlists debe presentar su música a los editores de estas con suficiente tiempo, también, definir el género de las canciones para entrar en la lista correcta.
     * Las playlists populares para descubrimiento que enlista esta plataforma son: "Descubrimiento Semanal", "Radar de Novedades","Mix de Indie","En Repetición", "Happy Hits","Songs to Sing in the Shower".
     * Ampliación del Catálogo: Lanzar múltiples canciones y construir un catálogo más amplio puede aumentar significativamente el número de streams.
+ 
+## Enlances de recursos adicionales:
 
 
-Referencias:  
+### Referencias:  
 https://fanstudy.byspotify.com/edition/spotify-playlists  
 https://loudandclear.byspotify.com/es-LA/  
 https://drop.show/es/definir-genero-musical-proyecto  
 https://blog.landr.com/what-is-tempo/.
 
-Elaborado por:  
+**Elaborado por:  
 Natalia Alejandro González  
-julio 2024  
+julio 2024**  
