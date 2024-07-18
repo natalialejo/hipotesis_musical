@@ -84,6 +84,24 @@ Los datos se dividen en 3 tablas, la primera sobre el rendimiento de cada canci�
         En track_technicalinfo: 95 nulos en *key*
     * Duplicados: Comandos SQL utilizados: `COUNT`, `GROUP BY`, `HAVING`: 4 duplicados en *track_in_spotify*
 
+#### Ejemplo de consulta para nulos
+
+``` sql
+SELECT * 
+FROM `proyecto2-hipotesis-426821.Dataset_hipotesis.track_in_competition`
+WHERE in_apple_playlists IS NULL OR in_apple_charts IS NULL OR in_deezer_charts IS NULL OR in_deezer_playlists IS NULL OR in_shazam_charts IS NULL;
+
+# la columna in_shazam_charts tiene nulos #
+
+SELECT 
+COUNT(*) 
+FROM `proyecto2-hipotesis-426821.Dataset_hipotesis.track_in_competition`
+WHERE in_shazam_charts IS NULL
+
+# son 50 nulos #
+
+```
+
 - Manejo de nulos:
     * Se decidió mantener los nulos en *track_in_competition*.
 
@@ -196,13 +214,12 @@ plt.show()
 - Se descubrió que en el *Histograma de Total de Streams*, la distribución de streams es asimétrica y sesgada a la derecha, con la mayoría de canciones acumulando una cantidad relativamente baja de streams y unas pocas canciones alcanzando un número extremadamente alto. La mayor frecuencia de canciones se encuentra en el rango más bajo de streams, cercano a 0, y disminuye rápidamente a medida que los streams aumentan. Los valores de streams varían desde casi 0 hasta 35 mil millones, siendo la mayoría de las canciones de menos de 1 mil millones de streams. De igual forma, la distrubución en el *Histograma de Total de Playlists* es similar a la de los streams, con un sesgo a la derecha donde la mayoría de las canciones están en un número bajo de playlists. La mayor frecuencia de canciones se encuentra en el rango más bajo, con menos de 10,000 playlists. A medida que aumenta el número de playlists, la frecuencia de canciones disminuye significativamente, con muy pocas canciones alcanzando más de 60,000 playlists.
 
 - Para entender el comportamiento de los datos a lo largo del tiempo, se realizaron visualizaciones específicas:
-  * Gráfico de Líneas de *track_id* by *released_year* para visualizar la cantidad de canciones lanzadas por año. Esto ayuda a identificar tendencias en la producción de música a lo largo del tiempo.
-  * Gráfico de Líneas de *streams_int64* by *released_year* para analizar el total de streams por año, lo cual permite observar cómo ha evolucionado la popularidad de las canciones y el consumo de música en diferentes períodos.
- 
-#### Gráficos de línea
+
 ![Texto alternativo](img/graph_line.png?raw=true)
 
-   
+    *Gráfico de Líneas de *track_id* by *released_year* para visualizar la cantidad de canciones lanzadas por año. Esto ayuda a identificar tendencias en la producción de música a lo largo del tiempo.
+
+    *Gráfico de Líneas de *streams_int64* by *released_year* para analizar el total de streams por año, lo cual permite observar cómo ha evolucionado la popularidad de las canciones y el consumo de música en diferentes períodos.
 
 - Creación de Categorías por Cuartiles en BigQuery : Una vez realizada la exploración de datos, se procedió a crear categorías por cuartiles para las variables de características técnicas de las canciones utilizando consultas en BigQuery.
 
@@ -248,6 +265,7 @@ LEFT JOIN `proyecto2-hipotesis-426821.Dataset_hipotesis.quartiles` q
 ON a.track_id = q.track_id
 WHERE a.streams_int64 IS NOT NULL;
 ``` 
+
 - **Observacion**:Al categorizar, se observaron asignaciones  que pueden tomarse como incorrectas debido a la alta concentración de valores cero en algunas variables. La función NTILE(4) distribuye los datos en cuartiles según su orden, pero en distribuciones sesgadas, con muchos ceros, no puede diferenciar entre los cuartiles. Esto sugiere que puede haber formas más adecuadas de manejar la categorización para reflejar mejor las características técnicas y su relación con el éxito.
 
 ## Análisis ténico:  
@@ -264,6 +282,7 @@ WHERE a.streams_int64 IS NOT NULL;
 
 - En Power BI, se visualizó la correlación utilizando scatter plots.
 
+
 #### Ejemplo de consulta para la validación de hipotesis
 
 ``` sql
@@ -273,6 +292,7 @@ SELECT CORR (in_spotify_charts,in_deezer_charts) AS corr_hip2
 FROM `proyecto2-hipotesis-426821.Dataset_hipotesis.consolidado_view` 
 
 # 0.5999860553480  hipotesis validada #
+
 ```
 #### Ejemplo de scatter plot para la visualización de hipotesis validada
 
@@ -282,4 +302,67 @@ FROM `proyecto2-hipotesis-426821.Dataset_hipotesis.consolidado_view`
 
 ![Texto alternativo](img/graph_hi5.png?raw=true)
 
+- Análisis de hipótesis alternativa: influencia de las estaciones del eño en el éxito de las canciones
+    * Se planteó analizar si el éxito de las canciones, medido en número de streams, depende de la época o estación del año en que fueron lanzadas. 
+    * Cálculo de correlación:se utilizó la función `CORR` en BigQuery para evaluar la correlación entre el número de streams y el mes de lanzamiento: el resultado fue 0.023942841812, indicando una correlación muy baja.
+    * Se categorizó el mes de lanzamiento de las canciones en cuatro estaciones: invierno(12,1,2), verano(6,7,8), otoño(9,10,11) y primavera(3,4,5).
+    * Se creó una tabla con las siguientes variables: *track_id,track_name, streams_int64,released_month y season*
 
+#### Ejemplo de consulta para la tabla *seasons*
+
+``` sql
+    CREATE OR REPLACE TABLE `proyecto2-hipotesis-426821.Dataset_hipotesis.seasons` AS 
+SELECT
+  track_id,
+  track_name,
+  released_month,
+  CASE
+    WHEN released_month IN (12, 1, 2) THEN 'Invierno'
+    WHEN released_month IN (3, 4, 5) THEN 'Primavera'
+    WHEN released_month IN (6, 7, 8) THEN 'Verano'
+    WHEN released_month IN (9, 10, 11) THEN 'Otoño'
+  END AS season
+FROM
+  `proyecto2-hipotesis-426821.Dataset_hipotesis.consolidado_view`
+WHERE
+  fecha_released IS NOT NULL;
+```  
+
+- Conexión y visualización en Power BI: la tabla *seasons* se conectó a Power BI para visualizar la distribución de streams por estación del año. Aunque primavera y verano sobresalen ligeramente, no se encontró una diferencia significativa entre las estaciones que validara la hipótesis.
+
+## Creación de Dashboard en Power BI
+
+- Gráficos:
+    * de barras horizontales:permiten visualizar y comparar la cantidad de canciones y el rendimiento en términos de streams para cada artista.
+    * de pastel: muestran la distribución de lanzamientos a lo largo de las cuatro estaciones (invierno, primavera, verano y otoño).
+    * de dispersión (scatter plot): ayudan a identificar la relación entre las características técnicas de las canciones y su popularidad medida en streams.
+    * treemap: permite una visualización jerárquica de las características como bpm, energy, danceability, entre otras. 
+
+- Slicers por artista, año y astación del año: filtrar los datos del dashboard por artista, año de lanzamiento y estación del año, permitiendo una interacción dinámica y personalizada con la información.
+
+#### Vista de dashboard.
+
+![Texto alternativo](img/graph_dash.png?raw=true)
+
+## Conclusiones y Recomendaciones
+
+- Estado de los Datos: A través de los histogramas y el análisis de cuartiles, se observó que los datos presentan alta variabilidad, presencia de outliers y una acumulación significativa de ceros. Estos factores pueden interferir en la precisión y fiabilidad de los análisis e interpretaciones estadísticas. La alta variabilidad y los outliers sugieren que el éxito de las canciones en términos de streams es altamente desigual, con algunas canciones alcanzando cifras extremadamente altas mientras que la mayoría tiene un rendimiento mucho más bajo.
+
+-  Validación de hipótesis: se encontró que abarcar múltiples plataformas es efectivo para aumentar el éxito de una canción. Incluir canciones en playlists, tanto oficiales como de usuarios, influye en el incremento de los streams, así como también una mayor producción y publicación de contenido. Por otro lado, las características específicas de las canciones, como BPM, danzabilidad y valencia, no tienen un impacto significativo,  sugiriendo la búsqueda de otros factores.
+
+- Recomendaciones:
+    * Inclusión en Playlists: para maximizar los streams, se debe asegurar que las canciones se agreguen a la mayor cantidad posible de playlists, ya que esto aumenta la visibilidad y el alcance de las canciones.
+    * De acuerdo a artículos elaborados por Spotify (2024) un artista emergente que busque ser incluido en playlists debe presentar su música a los editores de estas con suficiente tiempo, también, definir el género de las canciones para entrar en la lista correcta.
+    * Las playlists populares para descubrimiento que enlista esta plataforma son: "Descubrimiento Semanal", "Radar de Novedades","Mix de Indie","En Repetición", "Happy Hits","Songs to Sing in the Shower".
+    * Ampliación del Catálogo: Lanzar múltiples canciones y construir un catálogo más amplio puede aumentar significativamente el número de streams.
+
+
+Referencias:
+https://fanstudy.byspotify.com/edition/spotify-playlists
+https://loudandclear.byspotify.com/es-LA/
+https://drop.show/es/definir-genero-musical-proyecto
+https://blog.landr.com/what-is-tempo/
+
+Elaborado por:
+Natalia Alejandro González
+julio 2024
