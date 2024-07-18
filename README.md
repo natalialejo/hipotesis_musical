@@ -2,14 +2,14 @@
 
 ## Indice:
 1. [Objetivo](#Objetivo)
-2. [Contexto](## Contexto)
-3. [Metodología](## Metodología)
-4. [Procesamiento y preparación de datos](## Procesamiento-y-preparación-de-datos)
+2. [Contexto](#Contexto)
+3. [Metodología](#Metodología)
+4. [Procesamiento y preparación de datos](#Procesamiento-y-preparación-de-datos)
 5. [Análisis exploratorio](#Análisis-exploratorio)
-6. [Análisis técnico](## Análisis-técnico)
-7. [Creación de Dashboard en Power BI](## Creación-de-Dashboard-en-Power-BI)
-8. [Conclusiones y Recomendaciones](## Conclusiones-y-Recomendaciones)
-9. [Recursos adicionales](## Enlances-de-recursos-adicionales)
+6. [Análisis técnico](#Análisis-técnico)
+7. [Creación de Dashboard en Power BI](#Creación-de-Dashboard-en-Power-BI)
+8. [Conclusiones y Recomendaciones](#Conclusiones-y-Recomendaciones)
+9. [Recursos adicionales](#Enlances-de-recursos-adicionales)
 
    
 ## Objetivo:
