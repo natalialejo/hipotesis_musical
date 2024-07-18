@@ -196,12 +196,13 @@ plt.show()
 - Se descubrió que en el *Histograma de Total de Streams*, la distribución de streams es asimétrica y sesgada a la derecha, con la mayoría de canciones acumulando una cantidad relativamente baja de streams y unas pocas canciones alcanzando un número extremadamente alto. La mayor frecuencia de canciones se encuentra en el rango más bajo de streams, cercano a 0, y disminuye rápidamente a medida que los streams aumentan. Los valores de streams varían desde casi 0 hasta 35 mil millones, siendo la mayoría de las canciones de menos de 1 mil millones de streams. De igual forma, la distrubución en el *Histograma de Total de Playlists* es similar a la de los streams, con un sesgo a la derecha donde la mayoría de las canciones están en un número bajo de playlists. La mayor frecuencia de canciones se encuentra en el rango más bajo, con menos de 10,000 playlists. A medida que aumenta el número de playlists, la frecuencia de canciones disminuye significativamente, con muy pocas canciones alcanzando más de 60,000 playlists.
 
 - Para entender el comportamiento de los datos a lo largo del tiempo, se realizaron visualizaciones específicas:
-
+  * Gráfico de Líneas de *track_id* by *released_year* para visualizar la cantidad de canciones lanzadas por año. Esto ayuda a identificar tendencias en la producción de música a lo largo del tiempo.
+  * Gráfico de Líneas de *streams_int64* by *released_year* para analizar el total de streams por año, lo cual permite observar cómo ha evolucionado la popularidad de las canciones y el consumo de música en diferentes períodos.
+ 
+#### Gráficos de línea
 ![Texto alternativo](img/graph_line.png?raw=true)
 
-    *Gráfico de Líneas de *track_id* by *released_year* para visualizar la cantidad de canciones lanzadas por año. Esto ayuda a identificar tendencias en la producción de música a lo largo del tiempo.
-
-    *Gráfico de Líneas de *streams_int64* by *released_year* para analizar el total de streams por año, lo cual permite observar cómo ha evolucionado la popularidad de las canciones y el consumo de música en diferentes períodos.
+   
 
 - Creación de Categorías por Cuartiles en BigQuery : Una vez realizada la exploración de datos, se procedió a crear categorías por cuartiles para las variables de características técnicas de las canciones utilizando consultas en BigQuery.
 
@@ -254,10 +255,14 @@ WHERE a.streams_int64 IS NOT NULL;
 - Llegado a este punto, se analizaron las categorías (alto, bajo) creadas para las características de las canciones en relación con la variable *streams_int64*:
     * Se crearon tablas matrix en Power BI y se segmentaron y agruparon los datos. Se encontró que las diferencias en el promedio de streams entre las distintas categorías de características **no son significativamente grandes**,lo cual  sugiere que ninguna de estas características por sí sola tiene un impacto fuerte en el número de streams de una canción. Las variaciones encontradas son relativamente pequeñas, puede ser que existan otros factores que determinen el éxito de una canción en términos de streams.
 
-- Cálculo de Correlaciones y validación de hipótesis:
-    * Se utilizó la función `CORR `en BigQuery para calcular la correlación entre las variables, para validar o refurtar las hipótesis planteadas.
-    * En Power BI, se visualizó la correlación utilizando scatter plots.
+- Cálculo de Correlaciones y validación de hipótesis:Se utilizó la función `CORR `en BigQuery para calcular la correlación entre las variables, para validar o refurtar las hipótesis planteadas:
+    * Hipótesis 1: No se encontró relación significativa entre BPM y streams (CORR(bpm, streams_int64) = -0.002).
+    * Hipótesis 2: Relación moderada a fuerte entre popularidad en Spotify y otras plataformas (CORR(in_spotify_charts, in_deezer_charts) = 0.60).
+    * Hipótesis 3: Fuerte relación positiva entre número de playlists y streams (CORR(total_playlists, streams_int64) = 0.78).
+    * Hipótesis 4: Fuerte relación positiva entre número de canciones de un artista y streams (CORR(in_spotify_playlists, streams_int64) = 0.79).
+    * Hipótesis 5: No se encontró relación significativa entre características de la canción y streams.
 
+- En Power BI, se visualizó la correlación utilizando scatter plots.
 
 #### Ejemplo de consulta para la validación de hipotesis
 
