@@ -278,7 +278,7 @@ ON a.track_id = q.track_id
 WHERE a.streams_int64 IS NOT NULL;
 ``` 
 
-- **Observacion**: Al categorizar, se observaron asignaciones  que pueden tomarse como incorrectas debido a la alta concentración de valores cero en algunas variables. La función NTILE(4) distribuye los datos en cuartiles según su orden, pero en distribuciones sesgadas, con muchos ceros, no puede diferenciar entre los cuartiles. Esto sugiere que puede haber formas más adecuadas de manejar la categorización para reflejar mejor las características técnicas y su relación con el éxito.
+- **Observación**: Al categorizar, se observaron asignaciones  que pueden tomarse como incorrectas debido a la alta concentración de valores cero en algunas variables. La función NTILE(4) distribuye los datos en cuartiles según su orden, pero en distribuciones sesgadas, con muchos ceros, no puede diferenciar entre los cuartiles. Esto sugiere que puede haber formas más adecuadas de manejar la categorización para reflejar mejor las características técnicas y su relación con el éxito.
 
 ## Análisis técnico:  
 
@@ -358,20 +358,21 @@ WHERE
 
 ## Conclusiones y Recomendaciones
 
-- Estado de los Datos: A través de los histogramas y el análisis de cuartiles, se observó que los datos presentan alta variabilidad, presencia de outliers y una acumulación significativa de ceros. Estos factores pueden interferir en la precisión y fiabilidad de los análisis e interpretaciones estadísticas. La alta variabilidad y los outliers sugieren que el éxito de las canciones en términos de streams es altamente desigual, con algunas canciones alcanzando cifras extremadamente altas mientras que la mayoría tiene un rendimiento mucho más bajo.
+- **Estado de los Datos**: A través de los histogramas y el análisis de cuartiles, se observó que los datos presentan alta variabilidad, presencia de outliers y una acumulación significativa de ceros. Estos factores pueden interferir en la precisión y fiabilidad de los análisis e interpretaciones estadísticas. La alta variabilidad y los outliers sugieren que el éxito de las canciones en términos de streams es altamente desigual, con algunas canciones alcanzando cifras extremadamente altas mientras que la mayoría tiene un rendimiento mucho más bajo.
 
--  Validación de hipótesis: se encontró que abarcar múltiples plataformas es efectivo para aumentar el éxito de una canción. Incluir canciones en playlists, tanto oficiales como de usuarios, influye en el incremento de los streams, así como también una mayor producción y publicación de contenido. Por otro lado, las características específicas de las canciones, como BPM, danzabilidad y valencia, no tienen un impacto significativo,  sugiriendo la búsqueda de otros factores.
+-  **Validación de hipótesis**: se encontró que abarcar múltiples plataformas es efectivo para aumentar el éxito de una canción. Incluir canciones en playlists, tanto oficiales como de usuarios, influye en el incremento de los streams, así como también una mayor producción y publicación de contenido. Por otro lado, las características específicas de las canciones, como BPM, danzabilidad y valencia, no tienen un impacto significativo,  sugiriendo la búsqueda de otros factores.
 
-- Recomendaciones:
-    * Inclusión en Playlists: para maximizar los streams, se debe asegurar que las canciones se agreguen a la mayor cantidad posible de playlists, ya que esto aumenta la visibilidad y el alcance de las canciones.
+- ### Recomendaciones:
+    * **Inclusión en Playlists**: para maximizar los streams, se debe asegurar que las canciones se agreguen a la mayor cantidad posible de playlists, ya que esto aumenta la visibilidad y el alcance de las canciones.
     * De acuerdo a artículos elaborados por Spotify (2024) un artista emergente que busque ser incluido en playlists debe presentar su música a los editores de estas con suficiente tiempo, también, definir el género de las canciones para entrar en la lista correcta.
     * Las playlists populares para descubrimiento que enlista esta plataforma son: "Descubrimiento Semanal", "Radar de Novedades","Mix de Indie","En Repetición", "Happy Hits","Songs to Sing in the Shower".
-    * Ampliación del Catálogo: Lanzar múltiples canciones y construir un catálogo más amplio puede aumentar significativamente el número de streams.
+    * **Ampliación del Catálogo**: Lanzar múltiples canciones y construir un catálogo más amplio puede aumentar significativamente el número de streams.
+    * Para un mayor alcance y entrar a más plataformas,  con ayuda de la disquera,usar distribuidores como CD BABY, CmdShft, Dance All Day, DistroKid, EmuBands, etc.  
  
 ## Enlances de recursos adicionales:
 - [Dashboard Power BI](https://drive.google.com/file/d/13xwwo3mpAK2md0fqeLZi6TasibA4e-XY/view?usp=sharing)
 - [PPT Google Slide](https://docs.google.com/presentation/d/1NNjiYxWGxmTyRhOiu8THztljtRB6ug4j/edit?usp=sharing&ouid=112353640199166411364&rtpof=true&sd=true)
-- [Presentación Loom]
+- [Presentación Loom](https://www.loom.com/share/678bec4cc2db4abaa7a824acbcff6c68?sid=5640d6fa-73b4-431f-a1a6-6b5bf1593827)
   
 ### Referencias:  
 https://fanstudy.byspotify.com/edition/spotify-playlists  
@@ -381,4 +382,5 @@ https://blog.landr.com/what-is-tempo/.
 
 **Elaborado por:  
 Natalia Alejandro González  
-julio 2024**  
+Eluzabeth Takury
+Julio 2024**  
