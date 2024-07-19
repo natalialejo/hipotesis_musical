@@ -382,5 +382,5 @@ https://blog.landr.com/what-is-tempo/.
 
 **Elaborado por:  
 Natalia Alejandro González  
-Elizabeth Takury
+Elizabeth Takury  
 Julio 2024**  
