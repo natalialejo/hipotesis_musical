@@ -369,8 +369,10 @@ WHERE
     * Ampliación del Catálogo: Lanzar múltiples canciones y construir un catálogo más amplio puede aumentar significativamente el número de streams.
  
 ## Enlances de recursos adicionales:
-
-
+- [Dashboard Power BI](https://drive.google.com/file/d/13xwwo3mpAK2md0fqeLZi6TasibA4e-XY/view?usp=sharing)
+- [PPT Google Slide](https://docs.google.com/presentation/d/1NNjiYxWGxmTyRhOiu8THztljtRB6ug4j/edit?usp=sharing&ouid=112353640199166411364&rtpof=true&sd=true)
+- [Presentación Loom]
+  
 ### Referencias:  
 https://fanstudy.byspotify.com/edition/spotify-playlists  
 https://loudandclear.byspotify.com/es-LA/  
