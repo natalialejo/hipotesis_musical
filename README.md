@@ -10,13 +10,14 @@
 7. [Creación de Dashboard en Power BI](#Creación-de-Dashboard-en-Power-BI)
 8. [Conclusiones y Recomendaciones](#Conclusiones-y-Recomendaciones)
 9. [Recursos adicionales](#Enlances-de-recursos-adicionales)
+10. [Referencias](#Referencias)
 
    
 ## Objetivo:
 Explorar un conjunto de datos con el fin de identificar patrones o características que puedan determinar los factores que contribuyen al éxito de una canción teniendo como herramienta un extenso dataset de Spotify con información sobre las canciones más escuchadas en 2023.
 
 ## Contexto: 
-Este proyecto se desarrolla en el marco de una discográfica que busca identificar los factores que hacen exitosa a una canción en plataformas de streaming. Con esta información,se pretende lanzar con éxito a un nuevo artista en el escenario musical global.
+Este proyecto se desarrolla en el marco de una disquera que busca identificar los factores que hacen exitosa a una canción en plataformas de streaming. Con esta información,se pretende lanzar con éxito a un nuevo artista en el escenario musical global.
 
 Las respuestas obtenidas nos ayudarán a realizar la validación de las siguientes hipótesis:
 
@@ -34,8 +35,7 @@ Las respuestas obtenidas nos ayudarán a realizar la validación de las siguient
 ### 1. Herramientas:
 * Google Sheets
 * BigQuery
-* Power BI
-* ChatGPT 
+* Power BI 
 * Google Slides 
 * Loom
   
@@ -229,14 +229,14 @@ plt.show()
 
 ![Texto alternativo](img/graph_line.png?raw=true)
 
-* Gráfico de Líneas de *track_id* by *released_year* para visualizar la cantidad de canciones lanzadas por año. Esto ayuda a identificar tendencias en la producción de música a lo largo del tiempo.
+* Gráfico de Líneas de *track_id* by *released_year* para visualizar la cantidad de canciones lanzadas por año. Esto ayudó a identificar tendencias en la producción de música a lo largo del tiempo.
 
-* Gráfico de Líneas de *streams_int64* by *released_year* para analizar el total de streams por año, lo cual permite observar cómo ha evolucionado la popularidad de las canciones y el consumo de música en diferentes períodos.
+* Gráfico de Líneas de *streams_int64* by *released_year* para analizar el total de streams por año, lo cual permitió observar cómo ha evolucionado la popularidad de las canciones y el consumo de música en diferentes períodos.
 
-- Creación de Categorías por Cuartiles en BigQuery : Una vez realizada la exploración de datos, se procedió a crear categorías por cuartiles para las variables de características técnicas de las canciones utilizando consultas en BigQuery.
+- Creación de categorías por cuartiles en BigQuery : Una vez realizada la exploración de datos, se procedió a crear categorías por cuartiles para las variables de características técnicas de las canciones utilizando consultas en BigQuery.
 
-    * Generación de Cuartiles: se utilizó la función `NTILE` para dividir las variables en cuartiles, de esto se genera una tabla temporal.
-    * Creación de Categorías: se creó una vista llamada categoria. Esta vista combina datos de la tabla *consolidado* con los cuartiles de la tabla *quartiles*, y además categoriza varias métricas (bpm, streams, danceability, valence, energy, acousticness, instrumentalness, liveness, speechiness) en categorías de "Bajo" (1,2 y 3 quartiles) y "Alto" (quartile 4).
+    * Generación de cuartiles: se utilizó la función `NTILE` para dividir las variables en cuartiles, de esto se genera una tabla temporal.
+    * Creación de categorías: se creó una vista llamada categoria. Esta vista combinó datos de la tabla *consolidado* con los cuartiles de la tabla *quartiles*, y además categorizó varias métricas (bpm, streams, danceability, valence, energy, acousticness, instrumentalness, liveness, speechiness) en categorías de "Bajo" (1,2 y 3 quartiles) y "Alto" (quartile 4).
 
 #### Ejemplo de consulta para creación de vista de *categorías*
 
@@ -278,14 +278,14 @@ ON a.track_id = q.track_id
 WHERE a.streams_int64 IS NOT NULL;
 ``` 
 
-- **Observacion**:Al categorizar, se observaron asignaciones  que pueden tomarse como incorrectas debido a la alta concentración de valores cero en algunas variables. La función NTILE(4) distribuye los datos en cuartiles según su orden, pero en distribuciones sesgadas, con muchos ceros, no puede diferenciar entre los cuartiles. Esto sugiere que puede haber formas más adecuadas de manejar la categorización para reflejar mejor las características técnicas y su relación con el éxito.
+- **Observacion**: Al categorizar, se observaron asignaciones  que pueden tomarse como incorrectas debido a la alta concentración de valores cero en algunas variables. La función NTILE(4) distribuye los datos en cuartiles según su orden, pero en distribuciones sesgadas, con muchos ceros, no puede diferenciar entre los cuartiles. Esto sugiere que puede haber formas más adecuadas de manejar la categorización para reflejar mejor las características técnicas y su relación con el éxito.
 
 ## Análisis técnico:  
 
 - Llegado a este punto, se analizaron las categorías (alto, bajo) creadas para las características de las canciones en relación con la variable *streams_int64*:
     * Se crearon tablas matrix en Power BI y se segmentaron y agruparon los datos. Se encontró que las diferencias en el promedio de streams entre las distintas categorías de características **no son significativamente grandes**,lo cual  sugiere que ninguna de estas características por sí sola tiene un impacto fuerte en el número de streams de una canción. Las variaciones encontradas son relativamente pequeñas, puede ser que existan otros factores que determinen el éxito de una canción en términos de streams.
 
-- Cálculo de Correlaciones y validación de hipótesis:Se utilizó la función `CORR `en BigQuery para calcular la correlación entre las variables, para validar o refurtar las hipótesis planteadas:
+- Cálculo de correlaciones y validación de hipótesis: Se utilizó la función `CORR `en BigQuery para calcular la correlación entre las variables, para validar o refurtar las hipótesis planteadas:
     * **Hipótesis 1**: No se encontró relación significativa entre BPM y streams (CORR(bpm, streams_int64) = -0.002).
     * **Hipótesis 2**: Relación moderada a fuerte entre popularidad en Spotify y otras plataformas (CORR(in_spotify_charts, in_deezer_charts) = 0.60).
     * **Hipótesis 3**: Fuerte relación positiva entre número de playlists y streams (CORR(total_playlists, streams_int64) = 0.78).
@@ -314,9 +314,9 @@ FROM `proyecto2-hipotesis-426821.Dataset_hipotesis.consolidado_view`
 
 ![Texto alternativo](img/graph_hi5.png?raw=true)
 
-- Análisis de hipótesis alternativa: influencia de las estaciones del eño en el éxito de las canciones
+- Análisis de hipótesis alternativa: influencia de las estaciones del año en el éxito de las canciones.
     * Se planteó analizar si el éxito de las canciones, medido en número de streams, depende de la época o estación del año en que fueron lanzadas. 
-    * Cálculo de correlación:se utilizó la función `CORR` en BigQuery para evaluar la correlación entre el número de streams y el mes de lanzamiento: el resultado fue 0.023942841812, indicando una correlación muy baja.
+    * Cálculo de correlación: se utilizó la función `CORR` en BigQuery para evaluar la correlación entre el número de streams y el mes de lanzamiento: el resultado fue 0.023942841812, indicando una correlación muy baja.
     * Se categorizó el mes de lanzamiento de las canciones en cuatro estaciones: invierno(12,1,2), verano(6,7,8), otoño(9,10,11) y primavera(3,4,5).
     * Se creó una tabla con las siguientes variables: *track_id,track_name, streams_int64,released_month y season*
 
@@ -345,12 +345,12 @@ WHERE
 ## Creación de Dashboard en Power BI
 
 - Gráficos:
-    * de barras horizontales:permiten visualizar y comparar la cantidad de canciones y el rendimiento en términos de streams para cada artista.
+    * de barras horizontales: visualizar y comparar la cantidad de canciones y el rendimiento en términos de streams para cada artista.
     * de pastel: muestran la distribución de lanzamientos a lo largo de las cuatro estaciones (invierno, primavera, verano y otoño).
     * de dispersión (scatter plot): ayudan a identificar la relación entre las características técnicas de las canciones y su popularidad medida en streams.
     * treemap: permite una visualización jerárquica de las características como bpm, energy, danceability, entre otras. 
 
-- Slicers por artista, año y astación del año: filtrar los datos del dashboard por artista, año de lanzamiento y estación del año, permitiendo una interacción dinámica y personalizada con la información.
+- Slicers: se filtraron los datos del dashboard por artista, año de lanzamiento y estación del año, permitiendo una interacción dinámica y personalizada con la información.
 
 #### Vista de dashboard.
 
