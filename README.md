@@ -369,8 +369,7 @@ WHERE
     * **Ampliación del Catálogo**: Lanzar múltiples canciones y construir un catálogo más amplio puede aumentar significativamente el número de streams.
     * Para un mayor alcance y entrar a más plataformas,  con ayuda de la disquera,usar distribuidores como CD BABY, CmdShft, Dance All Day, DistroKid, EmuBands, etc.  
  
-## Enlances de recursos adicionales:
-- [Dashboard Power BI](https://drive.google.com/file/d/13xwwo3mpAK2md0fqeLZi6TasibA4e-XY/view?usp=sharing)
+## Enlances de recursos adicionales:   
 - [PPT Google Slide](https://docs.google.com/presentation/d/1NNjiYxWGxmTyRhOiu8THztljtRB6ug4j/edit?usp=sharing&ouid=112353640199166411364&rtpof=true&sd=true)
 - [Presentación Loom](https://www.loom.com/share/678bec4cc2db4abaa7a824acbcff6c68?sid=5640d6fa-73b4-431f-a1a6-6b5bf1593827)
   
